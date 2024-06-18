@@ -20,6 +20,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("handleSubmit called");
     const auth = getAuth(firebase);
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -32,21 +33,21 @@ function SignUp() {
         phone: phone,
       };
       
-      // Wait for the Firestore document to be set
       await setDoc(doc(database, "users", user.uid), userData);
+
+      toast.success("User registered successfully!");
   
-      // Display the success toast
-      toast("User registered successfully!", { type: "success" });
-  
-      // Navigate to the login page
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+
     } catch (error) {
-      // If there's an error, display an error toast
       toast.error("Error creating user");
       console.log("Error creating user : ", error);
     }
   };
   
+
 
 
   return (

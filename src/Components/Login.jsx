@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 
+import {FirebaseContext} from '../Store/FirebaseContext'
 import Logo from '../../olx-logo.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const {firebase} = useContext(FirebaseContext)
+  const navigate = useNavigate()
+
+  const handleLogin = (e) => {
+    e.preventDefault()
+    const auth = getAuth(firebase)
+    signInWithEmailAndPassword(auth, email, password)
+    .then((result) => {
+      toast.success('Login Successfull')
+      const user = result.user;
+
+      setTimeout(()=> {
+        navigate('/')
+      }, 1000)
+    })
+    .catch((err) => {
+      if (err.code === 'auth/invalid-credential') {
+        toast.error('Invalid credentials');
+      } else {
+        toast.error('Login failed');
+      }
+      console.error('Error login', err);
+    });
+  }
+
   return (
     <div>
       <div className="loginParentDiv">
         <img className='logo' src={Logo}></img>
-        <form>
+        <form onSubmit={handleLogin}>
           <label htmlFor="fname">Email</label>
           <br />
           <input
@@ -15,7 +48,8 @@ function Login() {
             type="email"
             id="fname"
             name="email"
-            defaultValue="John"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <br />
           <label htmlFor="lname">Password</label>
@@ -25,14 +59,18 @@ function Login() {
             type="password"
             id="lname"
             name="password"
-            defaultValue="Doe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <br />
           <br />
           <button>Login</button>
         </form>
-        <a>Signup</a>
+        <p>
+          <Link to={'/signup'}>Don't have Account</Link>
+        </p>
       </div>
+      <ToastContainer/>
     </div>
   );
 }
