@@ -1,11 +1,14 @@
-import React from 'react'
+import { Fragment } from "react";
+import Header from "../Components/Header";
+import Create from "../Components/Create";
 
-function Create() {
+const CreatePage = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <Fragment>
+      <Header />
+      <Create />
+    </Fragment>
+  );
+};
 
-export default Create
+export default CreatePage;
