@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Posts() {
 
   const { firebase } = useContext(FirebaseContext);
-  const setPostDetails = useContext(PostContext)
+  const { setPostDetails } = useContext(PostContext)
   const [products, setProducts] = useState([]);
   const fireDB = getFirestore(firebase);
   const navigate = useNavigate();

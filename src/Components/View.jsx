@@ -11,7 +11,7 @@ import {
 import { PostContext } from "../Store/PostContext";  
 function View() {
   const [userData, setUserData] = useState("");
-  const  postDetails  = useContext(PostContext);
+  const { postDetails }  = useContext(PostContext);
   const { firebase } = useContext(FirebaseContext);
 
   useEffect(() => {

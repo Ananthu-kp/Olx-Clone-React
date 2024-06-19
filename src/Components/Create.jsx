@@ -27,7 +27,7 @@ const Create = () => {
         const snapshot = await uploadBytes(reference_storage, image);
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log(downloadURL);
-
+  
         const fireDB = getFirestore(firebase);
         const collectionRef = collection(fireDB, "products");
         const date = new Date().toLocaleDateString();
@@ -39,7 +39,7 @@ const Create = () => {
           imageURL: downloadURL,
           createAt: date.toString(),
         };
-
+  
         console.log("Uploading product details:", productDetails);
         await addDoc(collectionRef, productDetails);
         toast.success("Product added successfully", {
@@ -53,6 +53,7 @@ const Create = () => {
       }
     }
   };
+  
 
   return (
     <>
