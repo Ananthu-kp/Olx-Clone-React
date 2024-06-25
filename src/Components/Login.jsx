@@ -16,6 +16,19 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email.length === 0) {
+      toast.error('Email is Required', { autoClose: 1500 })
+    } else if (!emailRegex.test(email)) {
+      toast.error('Invalid Email Format', { autoClose: 1500 })
+    } else if (password.length === 0) {
+      toast.error('Password is Required', { autoClose:1500 })
+    } else if (password.length < 6) {
+      toast.error('Password must be 6 character', {autoClose: 1500 })
+    } else {
+
     const auth = getAuth(firebase)
     signInWithEmailAndPassword(auth, email, password)
     .then((result) => {
@@ -35,6 +48,7 @@ function Login() {
       console.error('Error login', err);
     });
   }
+}
 
   return (
     <div>

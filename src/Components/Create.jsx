@@ -18,8 +18,14 @@ const Create = () => {
   const navigate = useNavigate();
 
   const handleSubmition = async () => {
-    if (name.length === 0 || category.length === 0 || price <= 0 || !image) {
-      toast.error("Fill all fields for upload", { autoClose: false });
+    if (name.length === 0) {
+      toast.error("Name is Required", { autoClose: 1500 });
+    } else if (category.length === 0) {
+      toast.error("Category is Required", { autoClose: 1500 });
+    } else if (price <= 0) {
+      toast.error("Price is Required", { autoClose: 1500 });
+    } else if (!image) {
+      toast.error("Image is Required", { autoClose: 1500 });
     } else {
       try {
         const storage = getStorage(firebase);
@@ -27,7 +33,7 @@ const Create = () => {
         const snapshot = await uploadBytes(reference_storage, image);
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log(downloadURL);
-  
+
         const fireDB = getFirestore(firebase);
         const collectionRef = collection(fireDB, "products");
         const date = new Date().toLocaleDateString();
@@ -39,21 +45,21 @@ const Create = () => {
           imageURL: downloadURL,
           createAt: date.toString(),
         };
-  
+
         console.log("Uploading product details:", productDetails);
         await addDoc(collectionRef, productDetails);
         toast.success("Product added successfully", {
           autoClose: 2500,
           hideProgressBar: true,
         });
-        setTimeout(() => navigate("/"), 2500);
+        setTimeout(() => navigate("/"), 1500);
       } catch (error) {
         console.error("Error adding product:", error);
         toast.error("Failed to add product. Please try again.");
       }
     }
   };
-  
+
 
   return (
     <>
